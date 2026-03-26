@@ -74,8 +74,20 @@ def delete_item(item_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/search", response_model=SearchResponse)
-def search_items(db: Session = Depends(get_db)):
-    items = db.query(Item).all()
+def search_items(
+    name: str | None = None,
+    min_quantity: int | None = None,
+    db: Session = Depends(get_db),
+):
+    query = db.query(Item)
+
+    if name is not None:
+        query = query.filter(Item.name.ilike(f"%{name}%"))
+
+    if min_quantity is not None:
+        query = query.filter(Item.quantity >= min_quantity)
+
+    items = query.all()
 
     return {
         "message": "Search results",
