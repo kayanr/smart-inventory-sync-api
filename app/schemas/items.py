@@ -7,13 +7,14 @@ class ItemCreate(BaseModel):
 
 
 class ItemResponse(BaseModel):
+    id: int
     name: str
     quantity: int
 
 
 class ItemDetailResponse(BaseModel):
     message: str
-    item_id: int
+    item: ItemResponse
 
 
 class ItemCreateResponse(BaseModel):
@@ -21,11 +22,6 @@ class ItemCreateResponse(BaseModel):
     item: ItemResponse
 
 
-class SearchFilters(BaseModel):
-    name: str | None = None
-    min_quantity: int | None = None
-
-
 class SearchResponse(BaseModel):
     message: str
-    filters: SearchFilters
+    items: list[ItemResponse]
