@@ -22,3 +22,10 @@ def create_item(item: ItemCreate):
         "message": "Item received",
         "item": item.model_dump(),
     }
+
+@router.get("/items/{item_id}")
+def get_item(item_id: int):
+    return {
+        "message": "Item fetched",
+        "item_id": item_id,
+    }
