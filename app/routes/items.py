@@ -1,11 +1,16 @@
 from fastapi import APIRouter
 
-from app.schemas.items import ItemCreate
+from app.schemas.items import (
+    ItemCreate,
+    ItemCreateResponse,
+    ItemDetailResponse,
+    SearchResponse,
+)
 
 router = APIRouter()
 
 
-@router.post("/items")
+@router.post("/items", response_model=ItemCreateResponse)
 def create_item(item: ItemCreate):
     return {
         "message": "Item received",
@@ -13,7 +18,7 @@ def create_item(item: ItemCreate):
     }
 
 
-@router.get("/items/{item_id}")
+@router.get("/items/{item_id}", response_model=ItemDetailResponse)
 def get_item(item_id: int):
     return {
         "message": "Item fetched",
@@ -21,7 +26,7 @@ def get_item(item_id: int):
     }
 
 
-@router.get("/search")
+@router.get("/search", response_model=SearchResponse)
 def search_items(name: str | None = None, min_quantity: int | None = None):
     return {
         "message": "Search results",
