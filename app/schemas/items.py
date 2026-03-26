@@ -6,6 +6,11 @@ class ItemCreate(BaseModel):
     quantity: int
 
 
+class ItemUpdate(BaseModel):
+    name: str
+    quantity: int
+
+
 class ItemResponse(BaseModel):
     id: int
     name: str
@@ -20,6 +25,15 @@ class ItemDetailResponse(BaseModel):
 class ItemCreateResponse(BaseModel):
     message: str
     item: ItemResponse
+
+
+class ItemUpdateResponse(BaseModel):
+    message: str
+    item: ItemResponse
+
+
+class DeleteResponse(BaseModel):
+    message: str
 
 
 class SearchResponse(BaseModel):
