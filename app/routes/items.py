@@ -17,7 +17,7 @@ router = APIRouter()
 
 
 @router.post("/items", response_model=ItemCreateResponse)
-def create_item(item: ItemCreate, db: Session = Depends(get_db)):
+async def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     new_item = Item(name=item.name, quantity=item.quantity)
     db.add(new_item)
     db.commit()
@@ -30,7 +30,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/items/{item_id}", response_model=ItemDetailResponse)
-def get_item(item_id: int, db: Session = Depends(get_db)):
+async def get_item(item_id: int, db: Session = Depends(get_db)):
     item = db.query(Item).filter(Item.id == item_id).first()
 
     if item is None:
@@ -43,7 +43,7 @@ def get_item(item_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/items/{item_id}", response_model=ItemUpdateResponse)
-def update_item(item_id: int, item_update: ItemUpdate, db: Session = Depends(get_db)):
+async def update_item(item_id: int, item_update: ItemUpdate, db: Session = Depends(get_db)):
     item = db.query(Item).filter(Item.id == item_id).first()
 
     if item is None:
@@ -61,7 +61,7 @@ def update_item(item_id: int, item_update: ItemUpdate, db: Session = Depends(get
 
 
 @router.delete("/items/{item_id}", response_model=DeleteResponse)
-def delete_item(item_id: int, db: Session = Depends(get_db)):
+async def delete_item(item_id: int, db: Session = Depends(get_db)):
     item = db.query(Item).filter(Item.id == item_id).first()
 
     if item is None:
@@ -74,7 +74,7 @@ def delete_item(item_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/search", response_model=SearchResponse)
-def search_items(
+async def search_items(
     name: str | None = None,
     min_quantity: int | None = None,
     db: Session = Depends(get_db),
